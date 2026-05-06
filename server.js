@@ -20,13 +20,9 @@ const PORT = process.env.PORT || 5000;
 
 // ─── Middleware ──────────────────────────────────────────────
 app.use(cors({
-  origin: [
-    "https://moodsync-frontend-five.vercel.app",
-    "https://moodsync-frontend-adinotnices-projects.vercel.app",
-    "https://moodsync-frontend-10v2r1ri8-adinotnices-projects.vercel.app",
-    "http://localhost:5173",
-    "http://localhost:3000",
-  ],
+  origin: function(origin, callback) {
+    callback(null, true);
+  },
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   credentials: true,
 }));
