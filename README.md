@@ -19,8 +19,8 @@ An AI-powered mood-based movie and song recommendation chatbot.
 - APIs: Spotify, OMDb
 
 ## Team
-- Avisha Jain (Project Leader)
 - Aditya Singh Chouhan
+- Avisha Jain
 - Pratham Dassani
 
 ## Setup Instructions
