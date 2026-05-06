@@ -102,7 +102,7 @@ const result = await httpsFetch(
 const BLOCKED_KEYWORDS = [
   "lofi", "lo-fi", "beats", "mix", "remix", "instrumental",
   "karaoke", "cover", "tribute", "soundtrack", "bgm",
-  "ambient", "meditation", "sleep", "relaxing music", "study music"
+  "ambient", "meditation", "sleep", "relaxing music", "study music", "song"
 ];
 
 const ALLOWED_LANGUAGES = /^[a-zA-Z\u0900-\u097F0-9\s\-'",!?&().]+$/;
