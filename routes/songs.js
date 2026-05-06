@@ -90,7 +90,7 @@ const query = queries[Math.floor(Math.random() * queries.length)];
 const offset = Math.floor(Math.random() * 40);
 
 const result = await httpsFetch(
-  `https://api.spotify.com/v1/search?q=${encodeURIComponent(query)}&type=track&limit=10&offset=${offset}`,
+  `https://api.spotify.com/v1/search?q=${encodeURIComponent(query)}&type=track&limit=10&offset=${offset}&market=IN`,
   { headers: { "Authorization": `Bearer ${token}` } }
 );
 
@@ -99,16 +99,20 @@ const result = await httpsFetch(
       return res.status(500).json({ error: result.data.error.message, songs: [] });
     }
 
-  const BLOCKED_KEYWORDS = [
+const BLOCKED_KEYWORDS = [
   "lofi", "lo-fi", "beats", "mix", "remix", "instrumental",
   "karaoke", "cover", "tribute", "soundtrack", "bgm",
   "ambient", "meditation", "sleep", "relaxing music", "study music"
 ];
 
+const ALLOWED_LANGUAGES = /^[a-zA-Z\u0900-\u097F0-9\s\-'",!?&().]+$/;
+
+
 const tracks = (result.data.tracks?.items || [])
   .filter(t =>
     t.type === "track" &&
     t.duration_ms > 60000 &&
+    ALLOWED_LANGUAGES.test(t.name) &&
     !BLOCKED_KEYWORDS.some(word => 
       t.name.toLowerCase().includes(word)    
     )
