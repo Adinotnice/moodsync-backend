@@ -109,10 +109,8 @@ const tracks = (result.data.tracks?.items || [])
   .filter(t =>
     t.type === "track" &&
     t.duration_ms > 60000 &&
-    t.popularity > 20 && // only reasonably popular songs
     !BLOCKED_KEYWORDS.some(word => 
-      t.name.toLowerCase().includes(word) ||
-      t.artists.some(a => a.name.toLowerCase().includes(word))
+      t.name.toLowerCase().includes(word)    
     )
   )
   .sort(() => Math.random() - 0.5)
