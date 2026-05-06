@@ -87,7 +87,7 @@ router.post("/", async (req, res) => {
 
     const queries = EMOTION_SEARCH[emotion] || ["popular hits"];
 const query = queries[Math.floor(Math.random() * queries.length)];
-const offset = Math.floor(Math.random() * 50);
+const offset = Math.floor(Math.random() * 40);
 
 const result = await httpsFetch(
   `https://api.spotify.com/v1/search?q=${encodeURIComponent(query)}&type=track&limit=10&offset=${offset}`,
@@ -109,7 +109,7 @@ const tracks = (result.data.tracks?.items || [])
   .filter(t =>
     t.type === "track" &&
     t.duration_ms > 60000 &&
-    t.popularity > 30 && // only reasonably popular songs
+    t.popularity > 20 && // only reasonably popular songs
     !BLOCKED_KEYWORDS.some(word => 
       t.name.toLowerCase().includes(word) ||
       t.artists.some(a => a.name.toLowerCase().includes(word))
