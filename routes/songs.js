@@ -99,18 +99,25 @@ const result = await httpsFetch(
       return res.status(500).json({ error: result.data.error.message, songs: [] });
     }
 
-    const tracks = (result.data.tracks?.items || [])
-      .filter(t =>
-  t.type === "track" &&
-  t.duration_ms > 60000 &&
-  !t.name.toLowerCase().includes("lofi") &&
-  !t.name.toLowerCase().includes("lo-fi") &&
-  !t.name.toLowerCase().includes("beats") &&
-  !t.name.toLowerCase().includes("mix")
-)
-      .sort(() => Math.random() - 0.5)
-      .slice(0, 4)
-      .map(t => ({
+  const BLOCKED_KEYWORDS = [
+  "lofi", "lo-fi", "beats", "mix", "remix", "instrumental",
+  "karaoke", "cover", "tribute", "soundtrack", "bgm",
+  "ambient", "meditation", "sleep", "relaxing music", "study music"
+];
+
+const tracks = (result.data.tracks?.items || [])
+  .filter(t =>
+    t.type === "track" &&
+    t.duration_ms > 60000 &&
+    t.popularity > 30 && // only reasonably popular songs
+    !BLOCKED_KEYWORDS.some(word => 
+      t.name.toLowerCase().includes(word) ||
+      t.artists.some(a => a.name.toLowerCase().includes(word))
+    )
+  )
+  .sort(() => Math.random() - 0.5)
+  .slice(0, 4)
+  .map(t => ({ // keep your existing map
         id:     t.id,
         title:  t.name,
         artist: t.artists.map(a => a.name).join(", "),
