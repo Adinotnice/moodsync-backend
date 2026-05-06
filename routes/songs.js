@@ -40,13 +40,13 @@ function httpsFetch(reqUrl, options = {}) {
 }
 
 const EMOTION_SEARCH = {
-  joy:      "happy feel good pop",
-  sadness:  "sad heartbreak emotional",
-  anger:    "intense powerful rock",
-  fear:     "dark atmospheric tense",
-  surprise: "energetic upbeat exciting",
-  disgust:  "alternative indie moody",
-  neutral:  "relaxing chill acoustic",
+  joy:      ["happy feel good pop", "upbeat cheerful hits", "feel good dance", "positive vibes pop"],
+  sadness:  ["sad heartbreak emotional", "melancholy indie", "breakup songs", "sad ballads"],
+  anger:    ["intense powerful rock", "angry metal", "rage punk", "hard rock energy"],
+  fear:     ["dark atmospheric tense", "eerie ambient", "suspense soundtrack", "dark electronic"],
+  surprise: ["energetic upbeat exciting", "unexpected pop hits", "fun party songs", "quirky indie"],
+  disgust:  ["alternative indie moody", "grunge alternative", "dark indie", "moody rock"],
+  neutral:  ["relaxing chill acoustic", "lo-fi study", "peaceful ambient", "soft indie pop"],
 };
 
 // ─── Get Spotify token ────────────────────────────────────────
@@ -85,8 +85,9 @@ router.post("/", async (req, res) => {
     }
     console.log("[SONGS] Got Spotify token ✅");
 
-    const query  = EMOTION_SEARCH[emotion] || "popular hits";
-    const offset = Math.floor(Math.random() * 5);
+    const queries = EMOTION_SEARCH[emotion] || ["popular hits"];
+const query = queries[Math.floor(Math.random() * queries.length)];
+const offset = Math.floor(Math.random() * 50);
 
 const result = await httpsFetch(
   `https://api.spotify.com/v1/search?q=${encodeURIComponent(query)}&type=track&limit=10&offset=${offset}`,
